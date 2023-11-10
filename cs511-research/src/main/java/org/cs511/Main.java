@@ -7,8 +7,8 @@ import org.cs511.pipelines.TuplePipeline;
 public class Main {
     public static void main(String[] args) {
         Configuration conf = new Configuration();
-//        conf.setString("rest.port", "8000");
-//        conf.setString("rest.flamegraph.enabled", "true");
+        conf.setString("rest.port", "8000");
+        conf.setBoolean("rest.flamegraph.enabled", true);
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment(conf);
 
