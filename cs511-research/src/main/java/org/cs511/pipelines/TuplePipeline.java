@@ -6,12 +6,12 @@ import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.KeyedStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.cs511.datasource.DummyDataSource;
+import org.cs511.datasource.DummyTupleDataSource;
 
 
 public class TuplePipeline {
     public static StreamExecutionEnvironment create(StreamExecutionEnvironment env){
-         DataStream<Tuple2<Integer, String>> inputStream = env.addSource(new DummyDataSource());
+         DataStream<Tuple2<Integer, String>> inputStream = env.addSource(new DummyTupleDataSource());
 
 
          DataStream<Tuple2<Integer, String>> mapped = inputStream.map(new MapFunction<Tuple2<Integer, String>, Tuple2<Integer, String>>() {

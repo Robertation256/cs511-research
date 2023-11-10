@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message dummy {
+    int32 field1 = 1;
+    string field2 = 2;
+}

@@ -3,7 +3,7 @@ package org.cs511.datasource;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
 
-public class DummyDataSource extends RichSourceFunction<Tuple2<Integer, String>> {
+public class DummyTupleDataSource extends RichSourceFunction<Tuple2<Integer, String>> {
     private boolean running = true;
 
     @Override
