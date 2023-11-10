@@ -95,8 +95,9 @@
                 </executions>
                 <configuration>
                     <protocArtifact>com.google.protobuf:protoc:3.17.3:exe:${os.detected.classifier}</protocArtifact>
-                    <protoSourceRoot>src/main/java/proto</protoSourceRoot>
-                    <outputDirectory>${project.basedir}/src/main/java/org/cs511/proto</outputDirectory>
+                    <protoSourceRoot>src/main/resources/proto</protoSourceRoot>
+                    <outputDirectory>src/main/java/</outputDirectory>
+                    <clearOutputDirectory>false</clearOutputDirectory>
                 </configuration>
             </plugin>
         </plugins>
