@@ -58,6 +58,18 @@
             <version>0.9.5</version> <!-- Replace with the version you need -->
         </dependency>
 
+        <!-- thrift -->
+        <dependency>
+            <groupId>org.apache.thrift</groupId>
+            <artifactId>libthrift</artifactId>
+            <version>0.15.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.twitter</groupId>
+            <artifactId>chill-thrift</artifactId>
+            <version>0.9.5</version> <!-- Replace with the version you need -->
+        </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
@@ -95,10 +107,37 @@
                 </executions>
                 <configuration>
                     <protocArtifact>com.google.protobuf:protoc:3.17.3:exe:${os.detected.classifier}</protocArtifact>
-                    <protoSourceRoot>src/main/resources/proto</protoSourceRoot>
+                    <protoSourceRoot>src/main/proto</protoSourceRoot>
                     <outputDirectory>src/main/java/</outputDirectory>
                     <clearOutputDirectory>false</clearOutputDirectory>
                 </configuration>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.thrift.tools</groupId>
+                <artifactId>maven-thrift-plugin</artifactId>
+                <version>0.1.11</version>
+                <configuration>
+                    <thriftExecutable>/usr/local/bin/thrift </thriftExecutable>
+                    <generator>java</generator>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>thrift-sources</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>thrift-test-sources</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
