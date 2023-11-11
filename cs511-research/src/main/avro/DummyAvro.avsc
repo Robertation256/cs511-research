@@ -1,0 +1,9 @@
+{
+  "namespace": "org.cs511.avro",
+  "type": "record",
+  "name": "DummyAvro",
+  "fields": [
+    {"name": "id", "type": "int"},
+    {"name": "name", "type": "string"}
+  ]
+}
