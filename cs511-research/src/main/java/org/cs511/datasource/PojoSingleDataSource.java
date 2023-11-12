@@ -15,19 +15,14 @@ public class DummyPojoDataSource extends RichSourceFunction<DummyPojoDataSource.
     // note that PoJo needs to follow below conventions
     public static final class MyPojo {
         private String tconst = "hello";
-        private int ratings = 3.5;
-        private int votes = 0
+        private String ratings = "3.5";
 
         public void settconst(String field1) {
             this.tconst = field1;
         }
 
-        public void setrating(int field2) {
+        public void setrating(String field2) {
             this.ratings = field2;
-        }
-
-        public void setvotes(int field3) {
-            this.votes = field3;
         }
     }
 
@@ -45,13 +40,11 @@ public class DummyPojoDataSource extends RichSourceFunction<DummyPojoDataSource.
                 for (JsonNode lineNode : jsonNode) {
                     // Accessing fields in the JsonNode
                     String tconst = lineNode.get("tconst").asText();
-                    int averageRating = lineNode.get("averageRating").asInt();
-                    int numVotes = lineNode.get("numVotes").asInt();
+                    String averageRating = lineNode.get("averageRating").asText();
 
                     MyPojo resultElement = new MyPojo();
                     resultElement.settconst(tconst);
                     resultElement.setrating(averageRating);
-                    resultElement.setvotes(numVotes);
 
                     // emit record
                     sourceContext.collect(resultElement);   
