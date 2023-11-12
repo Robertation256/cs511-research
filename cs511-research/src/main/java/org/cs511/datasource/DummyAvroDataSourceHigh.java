@@ -9,19 +9,16 @@ import org.cs511.avro.DummyAvroHigh;
 
 
 // FIXME: https://kapilsreed.medium.com/apache-avro-demystified-66d80426c752
-public class DummyAvroDataSource extends RichSourceFunction<DummyAvro> {
+public class DummyAvroDataSource extends RichSourceFunction<DummyAvroHigh> {
     private boolean running = true;
 
     @Override
-    public void run(SourceContext<DummyAvro> sourceContext) throws Exception {
+    public void run(SourceContext<DummyAvroHigh> sourceContext) throws Exception {
         Object datasetObj = new JSONParser().parse(new FileReader("steam.json"));
         JSONArray dataLines = (JSONArray) datasetObj;
 
         Iterator itr = dataLines.iterator();
-        while (itr.hasNext()){
-            // parse each line to a pojo
-            // insert code for parsing file into records and emit one at a time
-
+        while (itr.hasNext() && this.running){
             JSONObject dataLine = itr.next();
             DummyAvroHigh avroObj = new DummyAvroHigh();  // level 1
 
@@ -53,6 +50,8 @@ public class DummyAvroDataSource extends RichSourceFunction<DummyAvro> {
             avroObj.setRequirements(avroRequirements);
 
             sourceContext.collect(avroObj);
+
+            this.running = false;
         }
     }
 
