@@ -12,8 +12,8 @@
         "name": "DummyAvroHighFullDesc",
         "type": "record",
         "fields": [
-          {"name": "sort", type: "string"},
-          {"name": "desc", type: "string"}
+          {"name": "sort", "type": "string"},
+          {"name": "desc", "type": "string"}
         ]
       }
     },
@@ -35,10 +35,10 @@
                     "name": "DummyAvroHighRequirementsMinimumWindows",
                     "type": "record",
                     "fields": [
-                      {"name": "processor", type: "string"},
-                      {"name": "memory", type: "string"},
-                      {"name": "graphics", type: "string"},
-                      {"name": "os", type: "string"}
+                      {"name": "processor", "type": "string"},
+                      {"name": "memory", "type": "string"},
+                      {"name": "graphics", "type": "string"},
+                      {"name": "os", "type": "string"}
                     ]
                   }
                 }

@@ -12,8 +12,8 @@
         "name": "DummyAvroHighFullDesc",
         "type": "record",
         "fields": [
-          {"name": "sort", type: "string"},
-          {"name": "desc", type: "string"}
+          {"name": "sort", "type": "string"},
+          {"name": "desc", "type": "string"}
         ]
       }
     }
