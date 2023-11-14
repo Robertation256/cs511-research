@@ -14,8 +14,8 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class DummyAvro extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 6884932538078209772L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"DummyAvro\",\"namespace\":\"org.cs511.avro\",\"fields\":[{\"name\":\"id\",\"type\":\"int\"},{\"name\":\"name\",\"type\":\"string\"}]}");
+  private static final long serialVersionUID = 2835861839961608826L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"DummyAvro\",\"namespace\":\"org.cs511.avro\",\"fields\":[{\"name\":\"tconst\",\"type\":\"string\"},{\"name\":\"averageRating\",\"type\":\"string\"},{\"name\":\"numVotes\",\"type\":\"string\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -71,8 +71,9 @@ public class DummyAvro extends org.apache.avro.specific.SpecificRecordBase imple
     return DECODER.decode(b);
   }
 
-  @Deprecated public int id;
-  @Deprecated public java.lang.CharSequence name;
+  @Deprecated public java.lang.CharSequence tconst;
+  @Deprecated public java.lang.CharSequence averageRating;
+  @Deprecated public java.lang.CharSequence numVotes;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -83,12 +84,14 @@ public class DummyAvro extends org.apache.avro.specific.SpecificRecordBase imple
 
   /**
    * All-args constructor.
-   * @param id The new value for id
-   * @param name The new value for name
+   * @param tconst The new value for tconst
+   * @param averageRating The new value for averageRating
+   * @param numVotes The new value for numVotes
    */
-  public DummyAvro(java.lang.Integer id, java.lang.CharSequence name) {
-    this.id = id;
-    this.name = name;
+  public DummyAvro(java.lang.CharSequence tconst, java.lang.CharSequence averageRating, java.lang.CharSequence numVotes) {
+    this.tconst = tconst;
+    this.averageRating = averageRating;
+    this.numVotes = numVotes;
   }
 
   public org.apache.avro.specific.SpecificData getSpecificData() { return MODEL$; }
@@ -96,8 +99,9 @@ public class DummyAvro extends org.apache.avro.specific.SpecificRecordBase imple
   // Used by DatumWriter.  Applications should not call.
   public java.lang.Object get(int field$) {
     switch (field$) {
-    case 0: return id;
-    case 1: return name;
+    case 0: return tconst;
+    case 1: return averageRating;
+    case 2: return numVotes;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -106,44 +110,62 @@ public class DummyAvro extends org.apache.avro.specific.SpecificRecordBase imple
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
-    case 0: id = (java.lang.Integer)value$; break;
-    case 1: name = (java.lang.CharSequence)value$; break;
+    case 0: tconst = (java.lang.CharSequence)value$; break;
+    case 1: averageRating = (java.lang.CharSequence)value$; break;
+    case 2: numVotes = (java.lang.CharSequence)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
 
   /**
-   * Gets the value of the 'id' field.
-   * @return The value of the 'id' field.
+   * Gets the value of the 'tconst' field.
+   * @return The value of the 'tconst' field.
    */
-  public int getId() {
-    return id;
+  public java.lang.CharSequence getTconst() {
+    return tconst;
   }
 
 
   /**
-   * Sets the value of the 'id' field.
+   * Sets the value of the 'tconst' field.
    * @param value the value to set.
    */
-  public void setId(int value) {
-    this.id = value;
+  public void setTconst(java.lang.CharSequence value) {
+    this.tconst = value;
   }
 
   /**
-   * Gets the value of the 'name' field.
-   * @return The value of the 'name' field.
+   * Gets the value of the 'averageRating' field.
+   * @return The value of the 'averageRating' field.
    */
-  public java.lang.CharSequence getName() {
-    return name;
+  public java.lang.CharSequence getAverageRating() {
+    return averageRating;
   }
 
 
   /**
-   * Sets the value of the 'name' field.
+   * Sets the value of the 'averageRating' field.
    * @param value the value to set.
    */
-  public void setName(java.lang.CharSequence value) {
-    this.name = value;
+  public void setAverageRating(java.lang.CharSequence value) {
+    this.averageRating = value;
+  }
+
+  /**
+   * Gets the value of the 'numVotes' field.
+   * @return The value of the 'numVotes' field.
+   */
+  public java.lang.CharSequence getNumVotes() {
+    return numVotes;
+  }
+
+
+  /**
+   * Sets the value of the 'numVotes' field.
+   * @param value the value to set.
+   */
+  public void setNumVotes(java.lang.CharSequence value) {
+    this.numVotes = value;
   }
 
   /**
@@ -187,8 +209,9 @@ public class DummyAvro extends org.apache.avro.specific.SpecificRecordBase imple
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<DummyAvro>
     implements org.apache.avro.data.RecordBuilder<DummyAvro> {
 
-    private int id;
-    private java.lang.CharSequence name;
+    private java.lang.CharSequence tconst;
+    private java.lang.CharSequence averageRating;
+    private java.lang.CharSequence numVotes;
 
     /** Creates a new Builder */
     private Builder() {
@@ -201,13 +224,17 @@ public class DummyAvro extends org.apache.avro.specific.SpecificRecordBase imple
      */
     private Builder(org.cs511.avro.DummyAvro.Builder other) {
       super(other);
-      if (isValidValue(fields()[0], other.id)) {
-        this.id = data().deepCopy(fields()[0].schema(), other.id);
+      if (isValidValue(fields()[0], other.tconst)) {
+        this.tconst = data().deepCopy(fields()[0].schema(), other.tconst);
         fieldSetFlags()[0] = other.fieldSetFlags()[0];
       }
-      if (isValidValue(fields()[1], other.name)) {
-        this.name = data().deepCopy(fields()[1].schema(), other.name);
+      if (isValidValue(fields()[1], other.averageRating)) {
+        this.averageRating = data().deepCopy(fields()[1].schema(), other.averageRating);
         fieldSetFlags()[1] = other.fieldSetFlags()[1];
+      }
+      if (isValidValue(fields()[2], other.numVotes)) {
+        this.numVotes = data().deepCopy(fields()[2].schema(), other.numVotes);
+        fieldSetFlags()[2] = other.fieldSetFlags()[2];
       }
     }
 
@@ -217,92 +244,137 @@ public class DummyAvro extends org.apache.avro.specific.SpecificRecordBase imple
      */
     private Builder(org.cs511.avro.DummyAvro other) {
       super(SCHEMA$);
-      if (isValidValue(fields()[0], other.id)) {
-        this.id = data().deepCopy(fields()[0].schema(), other.id);
+      if (isValidValue(fields()[0], other.tconst)) {
+        this.tconst = data().deepCopy(fields()[0].schema(), other.tconst);
         fieldSetFlags()[0] = true;
       }
-      if (isValidValue(fields()[1], other.name)) {
-        this.name = data().deepCopy(fields()[1].schema(), other.name);
+      if (isValidValue(fields()[1], other.averageRating)) {
+        this.averageRating = data().deepCopy(fields()[1].schema(), other.averageRating);
         fieldSetFlags()[1] = true;
+      }
+      if (isValidValue(fields()[2], other.numVotes)) {
+        this.numVotes = data().deepCopy(fields()[2].schema(), other.numVotes);
+        fieldSetFlags()[2] = true;
       }
     }
 
     /**
-      * Gets the value of the 'id' field.
+      * Gets the value of the 'tconst' field.
       * @return The value.
       */
-    public int getId() {
-      return id;
+    public java.lang.CharSequence getTconst() {
+      return tconst;
     }
 
 
     /**
-      * Sets the value of the 'id' field.
-      * @param value The value of 'id'.
+      * Sets the value of the 'tconst' field.
+      * @param value The value of 'tconst'.
       * @return This builder.
       */
-    public org.cs511.avro.DummyAvro.Builder setId(int value) {
+    public org.cs511.avro.DummyAvro.Builder setTconst(java.lang.CharSequence value) {
       validate(fields()[0], value);
-      this.id = value;
+      this.tconst = value;
       fieldSetFlags()[0] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'id' field has been set.
-      * @return True if the 'id' field has been set, false otherwise.
+      * Checks whether the 'tconst' field has been set.
+      * @return True if the 'tconst' field has been set, false otherwise.
       */
-    public boolean hasId() {
+    public boolean hasTconst() {
       return fieldSetFlags()[0];
     }
 
 
     /**
-      * Clears the value of the 'id' field.
+      * Clears the value of the 'tconst' field.
       * @return This builder.
       */
-    public org.cs511.avro.DummyAvro.Builder clearId() {
+    public org.cs511.avro.DummyAvro.Builder clearTconst() {
+      tconst = null;
       fieldSetFlags()[0] = false;
       return this;
     }
 
     /**
-      * Gets the value of the 'name' field.
+      * Gets the value of the 'averageRating' field.
       * @return The value.
       */
-    public java.lang.CharSequence getName() {
-      return name;
+    public java.lang.CharSequence getAverageRating() {
+      return averageRating;
     }
 
 
     /**
-      * Sets the value of the 'name' field.
-      * @param value The value of 'name'.
+      * Sets the value of the 'averageRating' field.
+      * @param value The value of 'averageRating'.
       * @return This builder.
       */
-    public org.cs511.avro.DummyAvro.Builder setName(java.lang.CharSequence value) {
+    public org.cs511.avro.DummyAvro.Builder setAverageRating(java.lang.CharSequence value) {
       validate(fields()[1], value);
-      this.name = value;
+      this.averageRating = value;
       fieldSetFlags()[1] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'name' field has been set.
-      * @return True if the 'name' field has been set, false otherwise.
+      * Checks whether the 'averageRating' field has been set.
+      * @return True if the 'averageRating' field has been set, false otherwise.
       */
-    public boolean hasName() {
+    public boolean hasAverageRating() {
       return fieldSetFlags()[1];
     }
 
 
     /**
-      * Clears the value of the 'name' field.
+      * Clears the value of the 'averageRating' field.
       * @return This builder.
       */
-    public org.cs511.avro.DummyAvro.Builder clearName() {
-      name = null;
+    public org.cs511.avro.DummyAvro.Builder clearAverageRating() {
+      averageRating = null;
       fieldSetFlags()[1] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'numVotes' field.
+      * @return The value.
+      */
+    public java.lang.CharSequence getNumVotes() {
+      return numVotes;
+    }
+
+
+    /**
+      * Sets the value of the 'numVotes' field.
+      * @param value The value of 'numVotes'.
+      * @return This builder.
+      */
+    public org.cs511.avro.DummyAvro.Builder setNumVotes(java.lang.CharSequence value) {
+      validate(fields()[2], value);
+      this.numVotes = value;
+      fieldSetFlags()[2] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'numVotes' field has been set.
+      * @return True if the 'numVotes' field has been set, false otherwise.
+      */
+    public boolean hasNumVotes() {
+      return fieldSetFlags()[2];
+    }
+
+
+    /**
+      * Clears the value of the 'numVotes' field.
+      * @return This builder.
+      */
+    public org.cs511.avro.DummyAvro.Builder clearNumVotes() {
+      numVotes = null;
+      fieldSetFlags()[2] = false;
       return this;
     }
 
@@ -311,8 +383,9 @@ public class DummyAvro extends org.apache.avro.specific.SpecificRecordBase imple
     public DummyAvro build() {
       try {
         DummyAvro record = new DummyAvro();
-        record.id = fieldSetFlags()[0] ? this.id : (java.lang.Integer) defaultValue(fields()[0]);
-        record.name = fieldSetFlags()[1] ? this.name : (java.lang.CharSequence) defaultValue(fields()[1]);
+        record.tconst = fieldSetFlags()[0] ? this.tconst : (java.lang.CharSequence) defaultValue(fields()[0]);
+        record.averageRating = fieldSetFlags()[1] ? this.averageRating : (java.lang.CharSequence) defaultValue(fields()[1]);
+        record.numVotes = fieldSetFlags()[2] ? this.numVotes : (java.lang.CharSequence) defaultValue(fields()[2]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -345,9 +418,11 @@ public class DummyAvro extends org.apache.avro.specific.SpecificRecordBase imple
   @Override public void customEncode(org.apache.avro.io.Encoder out)
     throws java.io.IOException
   {
-    out.writeInt(this.id);
+    out.writeString(this.tconst);
 
-    out.writeString(this.name);
+    out.writeString(this.averageRating);
+
+    out.writeString(this.numVotes);
 
   }
 
@@ -356,19 +431,25 @@ public class DummyAvro extends org.apache.avro.specific.SpecificRecordBase imple
   {
     org.apache.avro.Schema.Field[] fieldOrder = in.readFieldOrderIfDiff();
     if (fieldOrder == null) {
-      this.id = in.readInt();
+      this.tconst = in.readString(this.tconst instanceof Utf8 ? (Utf8)this.tconst : null);
 
-      this.name = in.readString(this.name instanceof Utf8 ? (Utf8)this.name : null);
+      this.averageRating = in.readString(this.averageRating instanceof Utf8 ? (Utf8)this.averageRating : null);
+
+      this.numVotes = in.readString(this.numVotes instanceof Utf8 ? (Utf8)this.numVotes : null);
 
     } else {
-      for (int i = 0; i < 2; i++) {
+      for (int i = 0; i < 3; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
-          this.id = in.readInt();
+          this.tconst = in.readString(this.tconst instanceof Utf8 ? (Utf8)this.tconst : null);
           break;
 
         case 1:
-          this.name = in.readString(this.name instanceof Utf8 ? (Utf8)this.name : null);
+          this.averageRating = in.readString(this.averageRating instanceof Utf8 ? (Utf8)this.averageRating : null);
+          break;
+
+        case 2:
+          this.numVotes = in.readString(this.numVotes instanceof Utf8 ? (Utf8)this.numVotes : null);
           break;
 
         default:
