@@ -8,6 +8,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
 import org.cs511.avro.DummyAvroHigh;
+import org.cs511.avro.DummyAvroHighFullDesc;
+import org.cs511.avro.DummyAvroHighRequirements;
+import org.cs511.avro.DummyAvroHighRequirementsMinimum;
+import org.cs511.avro.DummyAvroHighRequirementsMinimumWindows;
 
 
 // FIXME: https://kapilsreed.medium.com/apache-avro-demystified-66d80426c752

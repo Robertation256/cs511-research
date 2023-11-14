@@ -1,6 +1,6 @@
 {
   "namespace": "org.cs511.avro",
-  "name": "DummyAvroHigh",
+  "name": "DummyAvroMedium",
   "type": "record",
   "fields": [
     {"name": "date", "type": "string"},
@@ -9,7 +9,7 @@
     {
       "name": "fullDesc",
       "type": {
-        "name": "DummyAvroHighFullDesc",
+        "name": "DummyAvroMediumFullDesc",
         "type": "record",
         "fields": [
           {"name": "sort", "type": "string"},

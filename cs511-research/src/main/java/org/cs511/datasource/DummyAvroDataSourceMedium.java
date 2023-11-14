@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
 import org.cs511.avro.DummyAvroMedium;
+import org.cs511.avro.DummyAvroMediumFullDesc;
 
 
 public class DummyAvroDataSourceMedium extends RichSourceFunction<DummyAvroMedium> {
