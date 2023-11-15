@@ -140,7 +140,8 @@
                 <artifactId>maven-thrift-plugin</artifactId>
                 <version>0.1.11</version>
                 <configuration>
-                    <thriftExecutable>/usr/local/bin/thrift </thriftExecutable>
+<!--                    <thriftExecutable>/usr/local/bin/thrift </thriftExecutable>-->
+                    <thriftExecutable>/opt/homebrew/bin/thrift </thriftExecutable>
                     <generator>java</generator>
                 </configuration>
                 <executions>
