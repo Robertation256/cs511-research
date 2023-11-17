@@ -4,7 +4,7 @@ import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
 import org.cs511.proto.SingleProto;
 import org.cs511.thrift.SingleThrift;
 
-public class DummyThriftDataSource extends RichSourceFunction<DummyThrift> {
+public class ThriftSingleDataSource extends RichSourceFunction<DummyThrift> {
     private boolean running = true;
 
 

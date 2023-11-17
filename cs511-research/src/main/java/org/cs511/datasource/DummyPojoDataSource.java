@@ -16,7 +16,7 @@ public class DummyPojoDataSource extends RichSourceFunction<DummyPojoDataSource.
     public static final class MyPojo {
         private String tconst = "hello";
         private int ratings = 3.5;
-        private int votes = 0
+        private int votes = 0;
 
         public void settconst(String field1) {
             this.tconst = field1;

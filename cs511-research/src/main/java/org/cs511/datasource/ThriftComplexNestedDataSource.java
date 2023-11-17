@@ -4,7 +4,7 @@ import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
 import org.cs511.proto.SingleProto;
 import org.cs511.thrift.ComplexThrift;
 
-public class DummyThriftDataSource extends RichSourceFunction<DummyThrift> {
+public class ThriftComplexNestedDataSource extends RichSourceFunction<DummyThrift> {
     private boolean running = true;
 
 
@@ -24,8 +24,8 @@ public class DummyThriftDataSource extends RichSourceFunction<DummyThrift> {
                 String sort = desc_obj.get("sort").asText();
                 String desc = desc_obj.get("desc").asText();
                 Desc desc_ = new Desc();
-                desc_.setSort(sort)
-                desc_.setDesc(desc)
+                desc_.setSort(sort);
+                desc_.setDesc(desc);
 
                 JsonNode requirement_obj = lineNode.get("requirements");
                 JsonNode minimum_obj = requirement_obj.get("minimum");
@@ -44,8 +44,8 @@ public class DummyThriftDataSource extends RichSourceFunction<DummyThrift> {
                 resultElement.setDate(date);
                 resultElement.setDeveloper(developer);
                 resultElement.setPublisher(publisher);
-                resultElement.setD(desc_)
-                resultElement.setR(req)
+                resultElement.setD(desc_);
+                resultElement.setR(req);
 
                 // emit record
                 sourceContext.collect(resultElement);   

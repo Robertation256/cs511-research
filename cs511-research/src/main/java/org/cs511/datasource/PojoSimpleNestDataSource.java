@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 
-public class DummyPojoDataSource extends RichSourceFunction<DummyPojoDataSource.MyPojo> {
+public class PojoSimpleNestDataSource extends RichSourceFunction<DummyPojoDataSource.MyPojo> {
     private boolean running = true;
 
     public static final class Desc {
@@ -70,14 +70,14 @@ public class DummyPojoDataSource extends RichSourceFunction<DummyPojoDataSource.
                     String sort = desc_obj.get("sort").asText();
                     String desc = desc_obj.get("desc").asText();
                     Desc desc_ = new Desc();
-                    desc_.setsort(sort)
-                    desc_.setdesc(desc)
+                    desc_.setsort(sort);
+                    desc_.setdesc(desc);
 
                     MyPojo resultElement = new MyPojo();
                     resultElement.setdate(date);
                     resultElement.setdeveloper(developer);
                     resultElement.setpublisher(publisher);
-                    resultElement.setdesc(desc_)
+                    resultElement.setdesc(desc_);
 
                     // emit record
                     sourceContext.collect(resultElement);   

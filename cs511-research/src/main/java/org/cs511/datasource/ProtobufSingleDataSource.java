@@ -3,7 +3,7 @@ package org.cs511.datasource;
 import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
 import org.cs511.proto.SingleProto;
 
-public class DummyProtobufDataSource extends RichSourceFunction<DummyProto.dummy_proto> {
+public class ProtobufSingleDataSource extends RichSourceFunction<DummyProto.dummy_proto> {
     private boolean running = true;
 
 

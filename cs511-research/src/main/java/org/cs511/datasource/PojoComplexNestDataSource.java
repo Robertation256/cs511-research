@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 
-public class DummyPojoDataSource extends RichSourceFunction<DummyPojoDataSource.MyPojo> {
+public class PojoComplexNestDataSource extends RichSourceFunction<DummyPojoDataSource.MyPojo> {
     private boolean running = true;
 
     public static final class Windows {

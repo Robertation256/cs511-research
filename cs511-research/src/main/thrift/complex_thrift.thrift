@@ -1,18 +1,18 @@
 namespace java org.cs511.thrift
 
-Struct Windows {
-    string processor = 1;
-    string memory = 1;
-    string graphics = 1;
-    string os = 1;
+struct Windows {
+    1: string processor;
+    2: string memory;
+    3: string graphics;
+    4: string os;
 }
 
-Struct Minimum {
-    Windows win = 1;
+struct Minimum {
+    1: Windows win;
 }
 
 struct Requirements{
-    Minimum min = 1;
+    1: Minimum min;
 }
 
 struct Desc {
