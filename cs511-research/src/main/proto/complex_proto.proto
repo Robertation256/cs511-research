@@ -4,9 +4,9 @@ option java_package = "org.cs511.proto";
 
 message windows {
     string processor = 1;
-    string memory = 1;
-    string graphics = 1;
-    string os = 1;
+    string memory = 2;
+    string graphics = 3;
+    string os = 4;
 }
 
 message minimum {
@@ -26,6 +26,6 @@ message simple_proto {
     string date = 1;
     string developer = 2;
     string publisher = 3;
-    full_desc d = 0;
-    requirements r = 0;
+    full_desc d = 4;
+    requirements r = 5;
 }

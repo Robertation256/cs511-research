@@ -2,11 +2,6 @@ syntax = "proto3";
 
 option java_package = "org.cs511.proto";
 
-message full_desc {
-    string sort = 1;
-    string desc = 2;
-}
-
 message simple_proto {
     string date = 1;
     string developer = 2;
@@ -16,6 +11,6 @@ message simple_proto {
         string sort = 1;
         string desc = 2;
     }
-    
-    full_desc d = 0;
+
+    full_desc d = 4;
 }
