@@ -20,7 +20,7 @@ struct Desc {
     2: string desc,
 }
 
-struct SimpleThrift {
+struct ComplexThrift {
   1: string date,
   2: string developer,
   3: string publisher,

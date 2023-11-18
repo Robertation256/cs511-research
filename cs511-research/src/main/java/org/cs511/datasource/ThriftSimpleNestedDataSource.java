@@ -2,7 +2,9 @@ package org.cs511.datasource;
 
 import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
 import org.cs511.proto.SimpleProto;
+
 import org.cs511.thrift.SimpleThrift;
+import org.cs511.thrift.Desc;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
