@@ -3,38 +3,34 @@ package org.cs511.datasource;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 public class TupleSingleDataSource extends RichSourceFunction<Tuple2<String, String>> {
     private boolean running = true;
 
     @Override
     public void run(SourceContext<Tuple2<String, String>> sourceContext) throws Exception {
+        JSONParser jp = new JSONParser();
+        Object datasetObj = jp.parse(new FileReader("../datasets/ImdbTitleRatings.json"));
+        JSONArray dataLines = (JSONArray) datasetObj;
 
-        while (running){
-            // parse each line to a  tuples and emits it
+        Iterator itr = dataLines.iterator();
 
-            // insert code for parsing file into records and emit one at a time
-            JsonNode jsonNode = readJsonFile("ImdbTitleRatings.json");
-            for (JsonNode lineNode : jsonNode) {
-                // Accessing fields in the JsonNode
-                String tconst = lineNode.get("tconst").asText();
-                String averageRating = lineNode.get("averageRating").asText();
+        while (itr.hasNext() && this.running){
+            // parse each line to a pojo
+            JSONObject lineNode = (JSONObject) itr.next();
+            String tconst = (String) lineNode.get("tconst");
+            String averageRating = (String) lineNode.get("averageRating");
 
-                Tuple2<String, String> resultElement = new Tuple2<>(tconst, averageRating);
-                sourceContext.collect(resultElement);   // emit record
-            }
+            Tuple2<String, String> resultElement = new Tuple2<>(tconst, averageRating);
+            sourceContext.collect(resultElement);   // emit record        
         }
     }
 
     @Override
     public void cancel() {
         this.running = false;
-    }
-
-    private static JsonNode readJsonFile(String jsonFilePath) throws IOException {
-        // Create ObjectMapper instance
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        // Read JSON file into a JsonNode
-        return objectMapper.readTree(new File(jsonFilePath));
     }
 }

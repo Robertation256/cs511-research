@@ -5,4 +5,5 @@ option java_package = "org.cs511.proto";
 message dummy_proto {
     int32 field1 = 1;
     string field2 = 2;
+    string field3 = 3;
 }

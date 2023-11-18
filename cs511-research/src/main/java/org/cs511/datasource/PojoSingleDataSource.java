@@ -9,7 +9,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 
-public class PojoSingleDataSource extends RichSourceFunction<DummyPojoDataSource.MyPojo> {
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+public class PojoSingleDataSource extends RichSourceFunction<PojoSingleDataSource.MyPojo> {
     private boolean running = true;
 
     // note that PoJo needs to follow below conventions
@@ -27,45 +31,31 @@ public class PojoSingleDataSource extends RichSourceFunction<DummyPojoDataSource
     }
 
     @Override
-    public void run(SourceContext<DummyPojoDataSource.MyPojo> sourceContext) throws Exception {
+    public void run(SourceContext<PojoSingleDataSource.MyPojo> sourceContext) throws Exception {
+        JSONParser jp = new JSONParser();
+        Object datasetObj = jp.parse(new FileReader("../datasets/ImdbTitleRatings.json"));
+        JSONArray dataLines = (JSONArray) datasetObj;
 
-        while (running){
+        Iterator itr = dataLines.iterator();
+
+        while (itr.hasNext() && this.running){
             // parse each line to a pojo
+            JSONObject lineNode = (JSONObject) itr.next();
 
-            // insert code for parsing file into records and emit one at a time
+            String tconst = (String) lineNode.get("tconst");
+            String averageRating = (String) lineNode.get("averageRating");
 
-            try {
-                // Read JSON file into a JsonNode
-                JsonNode jsonNode = readJsonFile("ImdbTitleRatings.json");
-                for (JsonNode lineNode : jsonNode) {
-                    // Accessing fields in the JsonNode
-                    String tconst = lineNode.get("tconst").asText();
-                    String averageRating = lineNode.get("averageRating").asText();
+            MyPojo resultElement = new MyPojo();
+            resultElement.settconst(tconst);
+            resultElement.setrating(averageRating);
 
-                    MyPojo resultElement = new MyPojo();
-                    resultElement.settconst(tconst);
-                    resultElement.setrating(averageRating);
-
-                    // emit record
-                    sourceContext.collect(resultElement);   
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            // emit record
+            sourceContext.collect(resultElement);   
         }
     }
 
     @Override
     public void cancel() {
         this.running = false;
-    }
-
-    private static JsonNode readJsonFile(String jsonFilePath) throws IOException {
-        // Create ObjectMapper instance
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        // Read JSON file into a JsonNode
-        return objectMapper.readTree(new File(jsonFilePath));
     }
 }

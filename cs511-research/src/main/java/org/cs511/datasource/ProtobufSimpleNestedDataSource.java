@@ -3,52 +3,52 @@ package org.cs511.datasource;
 import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
 import org.cs511.proto.SimpleProto;
 
-public class ProtobufSimpleNestedDataSource extends RichSourceFunction<DummyProto.dummy_proto> {
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+public class ProtobufSimpleNestedDataSource extends RichSourceFunction<SimpleProto.simple_proto> {
     private boolean running = true;
 
 
     @Override
-    public void run(SourceContext<DummyProto.dummy_proto> sourceContext) throws Exception {
+    public void run(SourceContext<SimpleProto.simple_proto> sourceContext) throws Exception {
 
-        while (running){
+        JSONParser jp = new JSONParser();
+        Object datasetObj = jp.parse(new FileReader("../datasets/steam.json"));
+        JSONArray dataLines = (JSONArray) datasetObj;
+
+        Iterator itr = dataLines.iterator();
+
+        while (itr.hasNext() && this.running){
             // parse each line to a pojo
-            JsonNode jsonNode = readJsonFile("steam.json");
-            for (JsonNode lineNode : jsonNode) {
-                // Accessing fields in the JsonNode
-                String date = lineNode.get("date").asText();
-                String developer = lineNode.get("developer").asText();
-                String publisher = lineNode.get("publisher").asText();
+            JSONObject lineNode = (JSONObject) itr.next();
+            // Accessing fields in the JsonNode
+            String date = (String) lineNode.get("date");
+            String developer = (String) lineNode.get("developer");
+            String publisher = (String) lineNode.get("publisher").asText();
 
-                JsonNode desc_obj = lineNode.get("full_desc");
-                String sort = desc_obj.get("sort").asText();
-                String desc = desc_obj.get("desc").asText();
-                SimpleProto.full_desc desc_ = SimpleProto.full_desc.newBuilder()
-                        .setSort(sort)
-                        .setDesc(desc)
-                        .build();
+            JSONObject desc_obj = (JSONObject) lineNode.get("full_desc");
+            String sort = (String) desc_obj.get("sort");
+            String desc = (String) desc_obj.get("desc");
+            SimpleProto.full_desc desc_ = SimpleProto.full_desc.newBuilder()
+                    .setSort(sort)
+                    .setDesc(desc)
+                    .build();
 
-                SimpleProto.simple_proto resultElement = SimpleProto.simple_proto.newBuilder()
-                        .setDate(date)
-                        .setDeveloper(developer)
-                        .setPublisher(publisher)
-                        .setD(desc_);
+            SimpleProto.simple_proto resultElement = SimpleProto.simple_proto.newBuilder()
+                    .setDate(date)
+                    .setDeveloper(developer)
+                    .setPublisher(publisher)
+                    .setD(desc_);
 
-                // emit record
-                sourceContext.collect(resultElement);   
-            }
+            // emit record
+            sourceContext.collect(resultElement);   
         }
     }
 
     @Override
     public void cancel() {
         this.running = false;
-    }
-
-    private static JsonNode readJsonFile(String jsonFilePath) throws IOException {
-        // Create ObjectMapper instance
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        // Read JSON file into a JsonNode
-        return objectMapper.readTree(new File(jsonFilePath));
     }
 }

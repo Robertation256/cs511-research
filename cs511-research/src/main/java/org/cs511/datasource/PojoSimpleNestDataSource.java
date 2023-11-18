@@ -9,7 +9,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 
-public class PojoSimpleNestDataSource extends RichSourceFunction<DummyPojoDataSource.MyPojo> {
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+public class PojoSimpleNestDataSource extends RichSourceFunction<PojoSimpleNestDataSource.MyPojo> {
     private boolean running = true;
 
     public static final class Desc {
@@ -50,55 +54,42 @@ public class PojoSimpleNestDataSource extends RichSourceFunction<DummyPojoDataSo
     }
 
     @Override
-    public void run(SourceContext<DummyPojoDataSource.MyPojo> sourceContext) throws Exception {
+    public void run(SourceContext<PojoSimpleNestDataSource.MyPojo> sourceContext) throws Exception {
+        JSONParser jp = new JSONParser();
+        Object datasetObj = jp.parse(new FileReader("../datasets/steam.json"));
+        JSONArray dataLines = (JSONArray) datasetObj;
 
-        while (running){
+        Iterator itr = dataLines.iterator();
+
+        while (itr.hasNext() && this.running){
             // parse each line to a pojo
+            JSONObject lineNode = (JSONObject) itr.next();
 
-            // insert code for parsing file into records and emit one at a time
+            // Accessing fields in the JsonNode
+            String date = (String) lineNode.get("date");
+            String developer = (String) lineNode.get("developer");
+            String publisher = (String) lineNode.get("publisher");
 
-            try {
-                // Read JSON file into a JsonNode
-                JsonNode jsonNode = readJsonFile("steam.json");
-                for (JsonNode lineNode : jsonNode) {
-                    // Accessing fields in the JsonNode
-                    String date = lineNode.get("date").asText();
-                    String developer = lineNode.get("developer").asText();
-                    String publisher = lineNode.get("publisher").asText();
+            JSONObject desc_obj = (JSONObject) lineNode.get("full_desc");
+            String sort = (String) desc_obj.get("sort");
+            String desc = (String) desc_obj.get("desc");
+            Desc desc_ = new Desc();
+            desc_.setsort(sort);
+            desc_.setdesc(desc);
 
-                    JsonNode desc_obj = lineNode.get("full_desc");
-                    String sort = desc_obj.get("sort").asText();
-                    String desc = desc_obj.get("desc").asText();
-                    Desc desc_ = new Desc();
-                    desc_.setsort(sort);
-                    desc_.setdesc(desc);
+            MyPojo resultElement = new MyPojo();
+            resultElement.setdate(date);
+            resultElement.setdeveloper(developer);
+            resultElement.setpublisher(publisher);
+            resultElement.setdesc(desc_);
 
-                    MyPojo resultElement = new MyPojo();
-                    resultElement.setdate(date);
-                    resultElement.setdeveloper(developer);
-                    resultElement.setpublisher(publisher);
-                    resultElement.setdesc(desc_);
-
-                    // emit record
-                    sourceContext.collect(resultElement);   
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            // emit record
+            sourceContext.collect(resultElement);   
         }
     }
 
     @Override
     public void cancel() {
         this.running = false;
-    }
-
-    private static JsonNode readJsonFile(String jsonFilePath) throws IOException {
-        // Create ObjectMapper instance
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        // Read JSON file into a JsonNode
-        return objectMapper.readTree(new File(jsonFilePath));
     }
 }

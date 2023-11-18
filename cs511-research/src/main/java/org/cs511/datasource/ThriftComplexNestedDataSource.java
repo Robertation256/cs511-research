@@ -1,68 +1,68 @@
 package org.cs511.datasource;
 
 import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
-import org.cs511.proto.SingleProto;
+import org.cs511.proto.ComplexProto;
 import org.cs511.thrift.ComplexThrift;
 
-public class ThriftComplexNestedDataSource extends RichSourceFunction<DummyThrift> {
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+public class ThriftComplexNestedDataSource extends RichSourceFunction<ComplexThrift> {
     private boolean running = true;
 
 
     @Override
-    public void run(SourceContext<DummyThrift> sourceContext) throws Exception {
+    public void run(SourceContext<ComplexThrift> sourceContext) throws Exception {
 
-        while (running){
+        JSONParser jp = new JSONParser();
+        Object datasetObj = jp.parse(new FileReader("../datasets/steam.json"));
+        JSONArray dataLines = (JSONArray) datasetObj;
+
+        Iterator itr = dataLines.iterator();
+
+        while (itr.hasNext() && this.running){
             // parse each line to a pojo
-            JsonNode jsonNode = readJsonFile("steam.json");
-            for (JsonNode lineNode : jsonNode) {
-                // Accessing fields in the JsonNode
-                String date = lineNode.get("date").asText();
-                String developer = lineNode.get("developer").asText();
-                String publisher = lineNode.get("publisher").asText();
+            JSONObject lineNode = (JSONObject) itr.next();
+            // Accessing fields in the JsonNode
+            String date = (String) lineNode.get("date");
+            String developer = (String) lineNode.get("developer");
+            String publisher = (String) lineNode.get("publisher");
 
-                JsonNode desc_obj = lineNode.get("full_desc");
-                String sort = desc_obj.get("sort").asText();
-                String desc = desc_obj.get("desc").asText();
-                Desc desc_ = new Desc();
-                desc_.setSort(sort);
-                desc_.setDesc(desc);
+            JSONObject desc_obj = (JSONObject) lineNode.get("full_desc");
+            String sort = (String) desc_obj.get("sort");
+            String desc = (String) desc_obj.get("desc");
+            Desc desc_ = new Desc();
+            desc_.setSort(sort);
+            desc_.setDesc(desc);
 
-                JsonNode requirement_obj = lineNode.get("requirements");
-                JsonNode minimum_obj = requirement_obj.get("minimum");
-                JsonNode windows_obj = minimum_obj.get("windows");
-                String processor = windows_obj.get("processor").asText();
-                String memory = windows_obj.get("memory").asText();
-                String graphics = windows_obj.get("graphics").asText();
-                String os = windows_obj.get("os").asText();
-                Windows win = new Windows();
-                Minimum min = new Minimum();
-                min.setWin(win);
-                Requirements req = new Requirements();
-                req.setMin(min);
+            JSONObject requirement_obj = (JSONObject) lineNode.get("requirements");
+            JSONObject minimum_obj = (JSONObject) requirement_obj.get("minimum");
+            JSONObject windows_obj = (JSONObject) minimum_obj.get("windows");
+            String processor = (String) windows_obj.get("processor");
+            String memory = (String) windows_obj.get("memory");
+            String graphics = (String)windows_obj.get("graphics");
+            String os = (String) windows_obj.get("os");
+            Windows win = new Windows();
+            Minimum min = new Minimum();
+            min.setWin(win);
+            Requirements req = new Requirements();
+            req.setMin(min);
 
-                ComplexThrift resultElement = new ComplexThrift();
-                resultElement.setDate(date);
-                resultElement.setDeveloper(developer);
-                resultElement.setPublisher(publisher);
-                resultElement.setD(desc_);
-                resultElement.setR(req);
+            ComplexThrift resultElement = new ComplexThrift();
+            resultElement.setDate(date);
+            resultElement.setDeveloper(developer);
+            resultElement.setPublisher(publisher);
+            resultElement.setD(desc_);
+            resultElement.setR(req);
 
-                // emit record
-                sourceContext.collect(resultElement);   
-            }
+            // emit record
+            sourceContext.collect(resultElement);   
         }
     }
 
     @Override
     public void cancel() {
         this.running = false;
-    }
-
-    private static JsonNode readJsonFile(String jsonFilePath) throws IOException {
-        // Create ObjectMapper instance
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        // Read JSON file into a JsonNode
-        return objectMapper.readTree(new File(jsonFilePath));
     }
 }
