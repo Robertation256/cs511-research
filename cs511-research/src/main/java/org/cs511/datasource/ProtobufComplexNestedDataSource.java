@@ -49,18 +49,22 @@ public class ProtobufComplexNestedDataSource extends RichSourceFunction<ComplexP
                     .setProcessor(processor)
                     .setMemory(memory)
                     .setGraphics(graphics)
-                    .setOs(os);
+                    .setOs(os)
+                    .build();
             ComplexProto.minimum min = ComplexProto.minimum.newBuilder()
-                    .setWin(win);
+                    .setWin(win)
+                    .build();
             ComplexProto.requirements req = ComplexProto.requirements.newBuilder()
-                    .setMin(min);
+                    .setMin(min)
+                    .build();
 
             ComplexProto.complex_proto resultElement = ComplexProto.complex_proto.newBuilder()
                     .setDate(date)
                     .setDeveloper(developer)
                     .setPublisher(publisher)
                     .setD(desc_)
-                    .setR(req);
+                    .setR(req)
+                    .build();
 
             // emit record
             sourceContext.collect(resultElement);   

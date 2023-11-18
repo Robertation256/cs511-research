@@ -43,7 +43,8 @@ public class ProtobufSimpleNestedDataSource extends RichSourceFunction<SimplePro
                     .setDate(date)
                     .setDeveloper(developer)
                     .setPublisher(publisher)
-                    .setD(desc_);
+                    .setD(desc_)
+                    .build();
 
             // emit record
             sourceContext.collect(resultElement);   
