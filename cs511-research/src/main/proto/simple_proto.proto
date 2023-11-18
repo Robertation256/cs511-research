@@ -11,5 +11,11 @@ message simple_proto {
     string date = 1;
     string developer = 2;
     string publisher = 3;
+
+    message full_desc {
+        string sort = 1;
+        string desc = 2;
+    }
+    
     full_desc d = 0;
 }

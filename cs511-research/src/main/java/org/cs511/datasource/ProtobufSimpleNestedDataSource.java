@@ -29,7 +29,7 @@ public class ProtobufSimpleNestedDataSource extends RichSourceFunction<SimplePro
             // Accessing fields in the JsonNode
             String date = (String) lineNode.get("date");
             String developer = (String) lineNode.get("developer");
-            String publisher = (String) lineNode.get("publisher").asText();
+            String publisher = (String) lineNode.get("publisher");
 
             JSONObject desc_obj = (JSONObject) lineNode.get("full_desc");
             String sort = (String) desc_obj.get("sort");
