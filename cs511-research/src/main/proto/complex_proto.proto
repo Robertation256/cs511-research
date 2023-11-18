@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+option java_package = "org.cs511.proto";
+
+message windows {
+    string processor = 1;
+    string memory = 2;
+    string graphics = 3;
+    string os = 4;
+}
+
+message minimum {
+    windows win = 1;
+}
+
+message requirements{
+    minimum min = 1;
+}
+
+message full_desc1 {
+    string sort = 1;
+    string desc = 2;
+}
+
+message complex_proto {
+    string date = 1;
+    string developer = 2;
+    string publisher = 3;
+    full_desc1 d = 4;
+    requirements r = 5;
+}
