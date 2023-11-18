@@ -8,6 +8,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import java.io.FileReader;
+import java.util.Iterator;
+
 public class ThriftComplexNestedDataSource extends RichSourceFunction<ComplexThrift> {
     private boolean running = true;
 

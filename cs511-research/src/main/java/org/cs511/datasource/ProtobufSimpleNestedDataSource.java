@@ -7,6 +7,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import java.io.FileReader;
+import java.util.Iterator;
+
 public class ProtobufSimpleNestedDataSource extends RichSourceFunction<SimpleProto.simple_proto> {
     private boolean running = true;
 
