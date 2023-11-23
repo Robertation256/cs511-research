@@ -24,23 +24,13 @@ public class DummyAvroDataSource extends RichSourceFunction<DummyAvro> {
     public void run(SourceContext<DummyAvro> sourceContext) throws Exception {
         String filename = "ImdbTitleRatings.json";
 
-        // works
-        ObjectMapper om = new ObjectMapper();
-        InputStream inputStream = DummyAvroDataSource.class.getClassLoader().getResourceAsStream(filename);
-        JSONArray dataLines = om.readValue(inputStream, JSONArray.class);
-        System.out.println(dataLines.asString());
-        // works
-
-        // but maybe try this https://attacomsian.com/blog/jackson-create-json-array
-
-
+        JSONParser jp = new JSONParser();
+        Object datasetObj = jp.parse(new FileReader(getClass().getClassLoader().getResource(filename).getFile()));
+        JSONArray dataLines = (JSONArray) datasetObj;
 
         Iterator itr = dataLines.iterator();
         while (itr.hasNext() && this.running){
-            System.out.println("garbage value");
-            JSONObject dataLine = (JSONObject) itr.next();  // java treating this as LinkedHashMap
-            System.out.println("garbage value 2");
-            System.out.println(dataLine.toString());
+            JSONObject dataLine = (JSONObject) itr.next();
 
             DummyAvro avroObj = new DummyAvro();
             avroObj.setTconst((String) dataLine.get("tconst"));
