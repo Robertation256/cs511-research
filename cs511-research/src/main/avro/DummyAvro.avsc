@@ -3,7 +3,8 @@
   "type": "record",
   "name": "DummyAvro",
   "fields": [
-    {"name": "id", "type": "int"},
-    {"name": "name", "type": "string"}
+    {"name": "tconst", "type": "string"},
+    {"name": "averageRating", "type": "string"},
+    {"name": "numVotes", "type": "string"}
   ]
 }
