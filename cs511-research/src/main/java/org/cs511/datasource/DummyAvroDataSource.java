@@ -3,8 +3,10 @@ package org.cs511.datasource;
 
 import java.io.FileReader;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 
 import netscape.javascript.JSObject;
@@ -28,16 +30,21 @@ public class DummyAvroDataSource extends RichSourceFunction<DummyAvro> {
         JSONArray dataLines = (JSONArray) datasetObj;
 
         Iterator itr = dataLines.iterator();
-        while (itr.hasNext() && this.running){
+        List<DummyAvro> data = new ArrayList<>();
+        while (itr.hasNext()){
             JSONObject dataLine = (JSONObject) itr.next();
 
             DummyAvro avroObj = new DummyAvro();
             avroObj.setTconst((String) dataLine.get("tconst"));
             avroObj.setAverageRating((String) dataLine.get("averageRating"));
             avroObj.setNumVotes((String) dataLine.get("numVotes"));
+            data.add(avroObj);
+        }
 
-            sourceContext.collect(avroObj);
-            System.out.println("while loop");
+        while(true){
+            for (DummyAvro avroObj: data) {
+                sourceContext.collect(avroObj);
+            }
         }
     }
 
