@@ -17,7 +17,7 @@ public class ThriftSingleDataSource extends RichSourceFunction<SingleThrift> {
     @Override
     public void run(SourceContext<SingleThrift> sourceContext) throws Exception {
         JSONParser jp = new JSONParser();
-        Object datasetObj = jp.parse(new FileReader("../datasets/ImdbTitleRatings.json"));
+        Object datasetObj = jp.parse(new FileReader(getClass().getClassLoader().getResource("datasets/ImdbTitleRatings.json").getFile()));
         JSONArray dataLines = (JSONArray) datasetObj;
 
         Iterator itr = dataLines.iterator();

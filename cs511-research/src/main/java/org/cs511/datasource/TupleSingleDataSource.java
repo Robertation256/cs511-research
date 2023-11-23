@@ -16,7 +16,7 @@ public class TupleSingleDataSource extends RichSourceFunction<Tuple2<String, Str
     @Override
     public void run(SourceContext<Tuple2<String, String>> sourceContext) throws Exception {
         JSONParser jp = new JSONParser();
-        Object datasetObj = jp.parse(new FileReader("../datasets/ImdbTitleRatings.json"));
+        Object datasetObj = jp.parse(new FileReader(getClass().getClassLoader().getResource("datasets/ImdbTitleRatings.json").getFile()));
         JSONArray dataLines = (JSONArray) datasetObj;
 
         Iterator itr = dataLines.iterator();

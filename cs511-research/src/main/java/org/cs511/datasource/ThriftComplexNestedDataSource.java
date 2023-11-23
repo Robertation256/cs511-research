@@ -23,7 +23,7 @@ public class ThriftComplexNestedDataSource extends RichSourceFunction<ComplexThr
     public void run(SourceContext<ComplexThrift> sourceContext) throws Exception {
 
         JSONParser jp = new JSONParser();
-        Object datasetObj = jp.parse(new FileReader("../datasets/steam.json"));
+        Object datasetObj = jp.parse(new FileReader(getClass().getClassLoader().getResource("datasets/steam.json").getFile()));
         JSONArray dataLines = (JSONArray) datasetObj;
 
         Iterator itr = dataLines.iterator();

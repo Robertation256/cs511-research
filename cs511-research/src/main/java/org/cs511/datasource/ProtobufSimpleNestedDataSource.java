@@ -18,7 +18,7 @@ public class ProtobufSimpleNestedDataSource extends RichSourceFunction<SimplePro
     public void run(SourceContext<SimpleProto.simple_proto> sourceContext) throws Exception {
 
         JSONParser jp = new JSONParser();
-        Object datasetObj = jp.parse(new FileReader("../datasets/steam.json"));
+        Object datasetObj = jp.parse(new FileReader(getClass().getClassLoader().getResource("datasets/steam.json").getFile()));
         JSONArray dataLines = (JSONArray) datasetObj;
 
         Iterator itr = dataLines.iterator();

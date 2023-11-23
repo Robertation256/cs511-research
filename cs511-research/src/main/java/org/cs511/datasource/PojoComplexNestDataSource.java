@@ -100,7 +100,7 @@ public class PojoComplexNestDataSource extends RichSourceFunction<PojoComplexNes
     @Override
     public void run(SourceContext<PojoComplexNestDataSource.MyPojo> sourceContext) throws Exception {
         JSONParser jp = new JSONParser();
-        Object datasetObj = jp.parse(new FileReader("../datasets/steam.json"));
+        Object datasetObj = jp.parse(new FileReader(getClass().getClassLoader().getResource("datasets/steam.json").getFile()));
         JSONArray dataLines = (JSONArray) datasetObj;
 
         Iterator itr = dataLines.iterator();

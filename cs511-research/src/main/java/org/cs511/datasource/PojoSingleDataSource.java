@@ -33,7 +33,7 @@ public class PojoSingleDataSource extends RichSourceFunction<PojoSingleDataSourc
     @Override
     public void run(SourceContext<PojoSingleDataSource.MyPojo> sourceContext) throws Exception {
         JSONParser jp = new JSONParser();
-        Object datasetObj = jp.parse(new FileReader("../datasets/ImdbTitleRatings.json"));
+        Object datasetObj = jp.parse(new FileReader(getClass().getClassLoader().getResource("datasets/ImdbTitleRatings.json").getFile()));
         JSONArray dataLines = (JSONArray) datasetObj;
 
         Iterator itr = dataLines.iterator();

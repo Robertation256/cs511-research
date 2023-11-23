@@ -21,7 +21,7 @@ public class DummyAvroDataSourceHigh extends RichSourceFunction<DummyAvroHigh> {
     @Override
     public void run(SourceContext<DummyAvroHigh> sourceContext) throws Exception {
         JSONParser jp = new JSONParser();
-        Object datasetObj = jp.parse(new FileReader("../datasets/steam.json"));
+        Object datasetObj = jp.parse(new FileReader(getClass().getClassLoader().getResource("datasets/steam.json").getFile()));
         JSONArray dataLines = (JSONArray) datasetObj;
 
         Iterator itr = dataLines.iterator();
@@ -58,7 +58,7 @@ public class DummyAvroDataSourceHigh extends RichSourceFunction<DummyAvroHigh> {
 
             sourceContext.collect(avroObj);
 
-            this.running = false;
+            // this.running = false;
         }
     }
 
