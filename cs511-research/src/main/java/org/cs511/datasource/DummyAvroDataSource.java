@@ -38,9 +38,8 @@ public class DummyAvroDataSource extends RichSourceFunction<DummyAvro> {
             avroObj.setNumVotes((String) dataLine.get("numVotes"));
 
             sourceContext.collect(avroObj);
+            System.out.println("while loop");
         }
-
-        this.running = false;
     }
 
     @Override
