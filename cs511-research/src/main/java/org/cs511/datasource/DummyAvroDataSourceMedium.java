@@ -18,6 +18,16 @@ import org.cs511.avro.DummyAvroMediumFullDesc;
 public class DummyAvroDataSourceMedium extends RichSourceFunction<DummyAvroMedium> {
     private boolean running = true;
 
+    private boolean isInfiniteSource = true;
+    private long recordsPerInvocation = 0L;
+
+    public DummyAvroDataSourceMedium(){}
+
+    public DummyAvroDataSourceMedium(long recordsPerInvocation){
+        this.recordsPerInvocation = recordsPerInvocation;
+        this.isInfiniteSource = false;
+    }
+
     @Override
     public void run(SourceContext<DummyAvroMedium> sourceContext) throws Exception {
         JSONParser jp = new JSONParser();
@@ -45,9 +55,17 @@ public class DummyAvroDataSourceMedium extends RichSourceFunction<DummyAvroMediu
             data.add(avroObj);
         }
 
+        long recordsRemaining = this.recordsPerInvocation;
         while(true){
             for (DummyAvroMedium avroObj: data) {
-                sourceContext.collect(avroObj);
+                if (isInfiniteSource || recordsRemaining > 0) {
+                    sourceContext.collect(avroObj);
+                    if (!isInfiniteSource){
+                        recordsRemaining--;
+                    }
+                } else {
+                    return;
+                }
             }
         }
     }

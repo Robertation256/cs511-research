@@ -19,6 +19,9 @@ import org.json.simple.parser.JSONParser;
 public class PojoSingleDataSource extends RichSourceFunction<PojoSingleDataSource.MyPojo> {
     private boolean running = true;
 
+    private boolean isInfiniteSource = true;
+    private long recordsPerInvocation = 0L;
+
     // note that PoJo needs to follow below conventions
     public static final class MyPojo {
         private String tconst = "hello";
@@ -31,6 +34,13 @@ public class PojoSingleDataSource extends RichSourceFunction<PojoSingleDataSourc
         public void setrating(String field2) {
             this.ratings = field2;
         }
+    }
+
+    public PojoSingleDataSource(){}
+
+    public PojoSingleDataSource(long recordsPerInvocation){
+        this.recordsPerInvocation = recordsPerInvocation;
+        this.isInfiniteSource = false;
     }
 
     @Override
@@ -56,9 +66,18 @@ public class PojoSingleDataSource extends RichSourceFunction<PojoSingleDataSourc
             data.add(resultElement);
         }
 
+        long recordsRemaining = this.recordsPerInvocation;
+
         while(true){
             for (MyPojo pojo: data) {
-                sourceContext.collect(pojo);
+                if (isInfiniteSource || recordsRemaining > 0) {
+                    sourceContext.collect(pojo);
+                    if (!isInfiniteSource){
+                        recordsRemaining--;
+                    }
+                } else {
+                    return;
+                }
             }
         }
     }

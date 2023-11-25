@@ -22,6 +22,16 @@ import org.cs511.avro.DummyAvroHighRequirementsMinimumWindows;
 public class DummyAvroDataSourceHigh extends RichSourceFunction<DummyAvroHigh> {
     private boolean running = true;
 
+    private boolean isInfiniteSource = true;
+    private long recordsPerInvocation = 0L;
+
+    public DummyAvroDataSourceHigh(){}
+
+    public DummyAvroDataSourceHigh(long recordsPerInvocation){
+        this.recordsPerInvocation = recordsPerInvocation;
+        this.isInfiniteSource = false;
+    }
+
     @Override
     public void run(SourceContext<DummyAvroHigh> sourceContext) throws Exception {
         JSONParser jp = new JSONParser();
@@ -65,9 +75,17 @@ public class DummyAvroDataSourceHigh extends RichSourceFunction<DummyAvroHigh> {
             data.add(avroObj);
         }
 
+        long recordsRemaining = this.recordsPerInvocation;
          while(true){
             for (DummyAvroHigh avroObj: data) {
-                sourceContext.collect(avroObj);
+                if (isInfiniteSource || recordsRemaining > 0) {
+                    sourceContext.collect(avroObj);
+                    if (!isInfiniteSource){
+                        recordsRemaining--;
+                    }
+                } else {
+                    return;
+                }
             }
         }
     }

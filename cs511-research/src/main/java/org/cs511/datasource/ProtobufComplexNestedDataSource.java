@@ -16,6 +16,9 @@ import java.util.List;
 public class ProtobufComplexNestedDataSource extends RichSourceFunction<ComplexProto.complex_proto> {
     private boolean running = true;
 
+    private boolean isInfiniteSource = true;
+    private long recordsPerInvocation = 0L;
+
 
     @Override
     public void run(SourceContext<ComplexProto.complex_proto> sourceContext) throws Exception {
@@ -73,9 +76,17 @@ public class ProtobufComplexNestedDataSource extends RichSourceFunction<ComplexP
             data.add(resultElement);
         }
 
+        long recordsRemaining = this.recordsPerInvocation;
         while(true){
             for (ComplexProto.complex_proto protoObj: data) {
-                sourceContext.collect(protoObj);
+                if (isInfiniteSource || recordsRemaining > 0) {
+                    sourceContext.collect(protoObj);
+                    if (!isInfiniteSource){
+                        recordsRemaining--;
+                    }
+                } else {
+                    return;
+                }
             }
         }
     }
