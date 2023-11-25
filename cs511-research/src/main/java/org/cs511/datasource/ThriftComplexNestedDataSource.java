@@ -64,6 +64,10 @@ public class ThriftComplexNestedDataSource extends RichSourceFunction<ComplexThr
             String graphics = (String)windows_obj.get("graphics");
             String os = (String) windows_obj.get("os");
             Windows win = new Windows();
+            win.setProcessor(processor);
+            win.setMemory(memory);
+            win.setGraphics(graphics);
+            win.setOs(os);
             Minimum min = new Minimum();
             min.setWin(win);
             Requirements req = new Requirements();
