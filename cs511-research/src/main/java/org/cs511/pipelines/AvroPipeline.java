@@ -8,6 +8,10 @@ import org.apache.flink.streaming.api.datastream.KeyedStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.cs511.avro.DummyAvro;
 import org.cs511.datasource.DummyAvroDataSource;
+import org.cs511.avro.DummyAvroHigh;
+import org.cs511.datasource.DummyAvroDataSourceHigh;
+import org.cs511.avro.DummyAvroMedium;
+import org.cs511.datasource.DummyAvroDataSourceMedium;
 
 
 public class AvroPipeline {

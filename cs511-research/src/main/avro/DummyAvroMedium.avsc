@@ -1,0 +1,21 @@
+{
+  "namespace": "org.cs511.avro",
+  "name": "DummyAvroMedium",
+  "type": "record",
+  "fields": [
+    {"name": "date", "type": "string"},
+    {"name": "developer", "type": "string"},
+    {"name": "publisher", "type": "string"},
+    {
+      "name": "fullDesc",
+      "type": {
+        "name": "DummyAvroMediumFullDesc",
+        "type": "record",
+        "fields": [
+          {"name": "sort", "type": "string"},
+          {"name": "desc", "type": "string"}
+        ]
+      }
+    }
+  ]
+}
