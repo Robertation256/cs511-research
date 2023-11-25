@@ -15,6 +15,16 @@ import java.util.List;
 public class TupleSingleDataSource extends RichSourceFunction<Tuple2<String, String>> {
     private boolean running = true;
 
+    private boolean isInfiniteSource = true;
+    private long recordsPerInvocation = 0L;
+
+    public TupleSingleDataSource(){}
+
+    public TupleSingleDataSource(long recordsPerInvocation){
+        this.recordsPerInvocation = recordsPerInvocation;
+        this.isInfiniteSource = false;
+    }
+
     @Override
     public void run(SourceContext<Tuple2<String, String>> sourceContext) throws Exception {
         JSONParser jp = new JSONParser();
@@ -34,9 +44,17 @@ public class TupleSingleDataSource extends RichSourceFunction<Tuple2<String, Str
             data.add(resultElement);   
         }
 
+        long recordsRemaining = this.recordsPerInvocation;
         while(true){
             for (Tuple2<String, String> tupleObj: data) {
-                sourceContext.collect(tupleObj);
+                if (isInfiniteSource || recordsRemaining > 0) {
+                    sourceContext.collect(tupleObj);
+                    if (!isInfiniteSource){
+                        recordsRemaining--;
+                    }
+                } else {
+                    return;
+                }
             }
         }
     }

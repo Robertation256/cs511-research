@@ -17,6 +17,15 @@ import java.util.List;
 public class ThriftSimpleNestedDataSource extends RichSourceFunction<SimpleThrift> {
     private boolean running = true;
 
+    private boolean isInfiniteSource = true;
+    private long recordsPerInvocation = 0L;
+
+    public ThriftSimpleNestedDataSource(){}
+
+    public ThriftSimpleNestedDataSource(long recordsPerInvocation){
+        this.recordsPerInvocation = recordsPerInvocation;
+        this.isInfiniteSource = false;
+    }
 
     @Override
     public void run(SourceContext<SimpleThrift> sourceContext) throws Exception {
@@ -50,10 +59,17 @@ public class ThriftSimpleNestedDataSource extends RichSourceFunction<SimpleThrif
 
             data.add(resultElement);
         }
-
+        long recordsRemaining = this.recordsPerInvocation;
         while(true){
             for (SimpleThrift thriftObj: data) {
-                sourceContext.collect(thriftObj);
+                if (isInfiniteSource || recordsRemaining > 0) {
+                    sourceContext.collect(thriftObj);
+                    if (!isInfiniteSource){
+                        recordsRemaining--;
+                    }
+                } else {
+                    return;
+                }
             }
         }
     }

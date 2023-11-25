@@ -19,6 +19,9 @@ import org.json.simple.parser.JSONParser;
 public class PojoSimpleNestDataSource extends RichSourceFunction<PojoSimpleNestDataSource.MyPojo> {
     private boolean running = true;
 
+    private boolean isInfiniteSource = true;
+    private long recordsPerInvocation = 0L;
+
     public static final class Desc {
         private String sort = "hello";
         private String desc = "3.5";
@@ -56,6 +59,13 @@ public class PojoSimpleNestDataSource extends RichSourceFunction<PojoSimpleNestD
         }
     }
 
+    public PojoSimpleNestDataSource(){}
+
+    public PojoSimpleNestDataSource(long recordsPerInvocation){
+        this.recordsPerInvocation = recordsPerInvocation;
+        this.isInfiniteSource = false;
+    }
+
     @Override
     public void run(SourceContext<PojoSimpleNestDataSource.MyPojo> sourceContext) throws Exception {
         JSONParser jp = new JSONParser();
@@ -90,9 +100,18 @@ public class PojoSimpleNestDataSource extends RichSourceFunction<PojoSimpleNestD
             data.add(resultElement);
         }
 
+        long recordsRemaining = this.recordsPerInvocation;
+
         while(true){
             for (MyPojo pojo: data) {
-                sourceContext.collect(pojo);
+                if (isInfiniteSource || recordsRemaining > 0) {
+                    sourceContext.collect(pojo);
+                    if (!isInfiniteSource){
+                        recordsRemaining--;
+                    }
+                } else {
+                    return;
+                }
             }
         }
     }

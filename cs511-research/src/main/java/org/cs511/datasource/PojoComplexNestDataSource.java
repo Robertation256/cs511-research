@@ -18,6 +18,15 @@ import org.json.simple.parser.JSONParser;
 
 public class PojoComplexNestDataSource extends RichSourceFunction<PojoComplexNestDataSource.MyPojo> {
     private boolean running = true;
+    private boolean isInfiniteSource = true;
+    private long recordsPerInvocation = 0L;
+
+    public PojoComplexNestDataSource(){}
+
+    public PojoComplexNestDataSource(long recordsPerInvocation){
+        this.recordsPerInvocation = recordsPerInvocation;
+        this.isInfiniteSource = false;
+    }
 
     public static final class Windows {
         private String processor = "1";
@@ -150,9 +159,17 @@ public class PojoComplexNestDataSource extends RichSourceFunction<PojoComplexNes
 
         }
 
+        long recordsRemaining = this.recordsPerInvocation;
         while(true){
             for (MyPojo pojo: data) {
-                sourceContext.collect(pojo);
+                if (isInfiniteSource || recordsRemaining > 0) {
+                    sourceContext.collect(pojo);
+                    if (!isInfiniteSource){
+                        recordsRemaining--;
+                    }
+                } else {
+                    return;
+                }
             }
         }
     }

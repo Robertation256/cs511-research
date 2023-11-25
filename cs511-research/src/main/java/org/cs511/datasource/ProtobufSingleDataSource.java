@@ -16,6 +16,16 @@ import java.util.List;
 public class ProtobufSingleDataSource extends RichSourceFunction<SingleProto.single_proto> {
     private boolean running = true;
 
+    private boolean isInfiniteSource = true;
+    private long recordsPerInvocation = 0L;
+
+    public ProtobufSingleDataSource(){}
+
+    public ProtobufSingleDataSource(long recordsPerInvocation){
+        this.recordsPerInvocation = recordsPerInvocation;
+        this.isInfiniteSource = false;
+    }
+
 
     @Override
     public void run(SourceContext<SingleProto.single_proto> sourceContext) throws Exception {
@@ -41,9 +51,17 @@ public class ProtobufSingleDataSource extends RichSourceFunction<SingleProto.sin
             data.add(proto);  
         }
 
+        long recordsRemaining = this.recordsPerInvocation;
         while(true){
             for (SingleProto.single_proto protoObj: data) {
-                sourceContext.collect(protoObj);
+                if (isInfiniteSource || recordsRemaining > 0) {
+                    sourceContext.collect(protoObj);
+                    if (!isInfiniteSource){
+                        recordsRemaining--;
+                    }
+                } else {
+                    return;
+                }
             }
         }
     }
