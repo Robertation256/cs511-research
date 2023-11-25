@@ -2,11 +2,15 @@ package org.cs511.datasource;
 
 
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
+import org.cs511.avro.DummyAvro;
 import org.cs511.avro.DummyAvroHigh;
 import org.cs511.avro.DummyAvroHighFullDesc;
 import org.cs511.avro.DummyAvroHighRequirements;
@@ -25,7 +29,9 @@ public class DummyAvroDataSourceHigh extends RichSourceFunction<DummyAvroHigh> {
         JSONArray dataLines = (JSONArray) datasetObj;
 
         Iterator itr = dataLines.iterator();
-        while (itr.hasNext() && this.running){
+        List<DummyAvroHigh> data = new ArrayList<>();
+        
+        while (itr.hasNext()){
             JSONObject dataLine = (JSONObject) itr.next();
             DummyAvroHigh avroObj = new DummyAvroHigh();  // level 1
 
@@ -56,9 +62,13 @@ public class DummyAvroDataSourceHigh extends RichSourceFunction<DummyAvroHigh> {
             avroObj.setFullDesc(avroFullDesc);
             avroObj.setRequirements(avroRequirements);
 
-            sourceContext.collect(avroObj);
+            data.add(avroObj);
+        }
 
-            // this.running = false;
+         while(true){
+            for (DummyAvroHigh avroObj: data) {
+                sourceContext.collect(avroObj);
+            }
         }
     }
 

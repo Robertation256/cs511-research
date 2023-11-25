@@ -2,12 +2,15 @@ package org.cs511.datasource;
 
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
+import org.cs511.avro.DummyAvro;
 
 import java.io.File;
 import java.io.IOException;
 
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -37,8 +40,9 @@ public class PojoSingleDataSource extends RichSourceFunction<PojoSingleDataSourc
         JSONArray dataLines = (JSONArray) datasetObj;
 
         Iterator itr = dataLines.iterator();
+        List<MyPojo> data = new ArrayList<>();
 
-        while (itr.hasNext() && this.running){
+        while (itr.hasNext()){
             // parse each line to a pojo
             JSONObject lineNode = (JSONObject) itr.next();
 
@@ -49,8 +53,13 @@ public class PojoSingleDataSource extends RichSourceFunction<PojoSingleDataSourc
             resultElement.settconst(tconst);
             resultElement.setrating(averageRating);
 
-            // emit record
-            sourceContext.collect(resultElement);
+            data.add(resultElement);
+        }
+
+        while(true){
+            for (MyPojo pojo: data) {
+                sourceContext.collect(pojo);
+            }
         }
     }
 

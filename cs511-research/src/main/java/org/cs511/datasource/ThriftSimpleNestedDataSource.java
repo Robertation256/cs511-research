@@ -2,6 +2,7 @@ package org.cs511.datasource;
 
 import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
 import org.cs511.thrift.SimpleThrift;
+import org.cs511.avro.DummyAvro;
 import org.cs511.thrift.Desc;
 
 import org.json.simple.JSONArray;
@@ -9,7 +10,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class ThriftSimpleNestedDataSource extends RichSourceFunction<SimpleThrift> {
     private boolean running = true;
@@ -23,8 +26,9 @@ public class ThriftSimpleNestedDataSource extends RichSourceFunction<SimpleThrif
         JSONArray dataLines = (JSONArray) datasetObj;
 
         Iterator itr = dataLines.iterator();
+        List<SimpleThrift> data = new ArrayList<>();
 
-        while (itr.hasNext() && this.running){
+        while (itr.hasNext()){
             // parse each line to a pojo
             JSONObject lineNode = (JSONObject) itr.next();
             String date = (String) lineNode.get("date");
@@ -44,8 +48,13 @@ public class ThriftSimpleNestedDataSource extends RichSourceFunction<SimpleThrif
             resultElement.setPublisher(publisher);
             resultElement.setD(desc_);
 
-            // emit record
-            sourceContext.collect(resultElement);
+            data.add(resultElement);
+        }
+
+        while(true){
+            for (SimpleThrift thriftObj: data) {
+                sourceContext.collect(thriftObj);
+            }
         }
     }
 

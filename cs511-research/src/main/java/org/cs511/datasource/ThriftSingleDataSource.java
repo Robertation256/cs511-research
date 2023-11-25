@@ -1,6 +1,7 @@
 package org.cs511.datasource;
 
 import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
+import org.cs511.avro.DummyAvro;
 import org.cs511.thrift.SingleThrift;
 
 import org.json.simple.JSONArray;
@@ -8,7 +9,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class ThriftSingleDataSource extends RichSourceFunction<SingleThrift> {
     private boolean running = true;
@@ -21,8 +24,9 @@ public class ThriftSingleDataSource extends RichSourceFunction<SingleThrift> {
         JSONArray dataLines = (JSONArray) datasetObj;
 
         Iterator itr = dataLines.iterator();
+        List<SingleThrift> data = new ArrayList<>();
 
-        while (itr.hasNext() && this.running){
+        while (itr.hasNext()){
             // parse each line to a pojo
             JSONObject lineNode = (JSONObject) itr.next();
 
@@ -33,7 +37,14 @@ public class ThriftSingleDataSource extends RichSourceFunction<SingleThrift> {
             SingleThrift thriftObj = new SingleThrift();
             thriftObj.setTconst(tconst);
             thriftObj.setRating(averageRating);
-            sourceContext.collect(thriftObj);   // emit record
+
+            data.add(thriftObj); 
+        }
+
+        while(true){
+            for (SingleThrift thriftObj: data) {
+                sourceContext.collect(thriftObj);
+            }
         }
     }
 
