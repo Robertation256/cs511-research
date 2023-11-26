@@ -103,13 +103,9 @@ public class PojoComplexNestDataSource extends RichSourceFunction<PojoComplexNes
             this.desc = field2;
         }
 
-        public void getSort(){
-            return sort;
-        }
+        public String getSort() {return this.sort;}
 
-        public void getDesc(){
-            return desc;
-        }
+        public String getDesc(){return this.desc;}
 
     }
 

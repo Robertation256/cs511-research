@@ -14,22 +14,22 @@ import org.cs511.datasource.PojoComplexNestDataSource;
 
 public class PojoPipeline {
     public static StreamExecutionEnvironment create(StreamExecutionEnvironment env){
-        DataStream<DummyPojoDataSource.MyPojo> inputStream = env.addSource(new DummyPojoDataSource());
+        DataStream<PojoComplexNestDataSource.MyPojo> inputStream = env.addSource(new PojoComplexNestDataSource());
 
 
-        DataStream<DummyPojoDataSource.MyPojo> mapped = inputStream.map(new MapFunction<DummyPojoDataSource.MyPojo, DummyPojoDataSource.MyPojo>() {
+        DataStream<PojoComplexNestDataSource.MyPojo> mapped = inputStream.map(new MapFunction<PojoComplexNestDataSource.MyPojo, PojoComplexNestDataSource.MyPojo>() {
             @Override
-            public DummyPojoDataSource.MyPojo map(DummyPojoDataSource.MyPojo pojo) throws Exception {
+            public PojoComplexNestDataSource.MyPojo map(PojoComplexNestDataSource.MyPojo pojo) throws Exception {
                 return pojo;    // do a simple identity map
             }
         });
 
         // use a key by to break operator chaining
-        KeyedStream<DummyPojoDataSource.MyPojo, Integer> keyed = mapped.keyBy((KeySelector<DummyPojoDataSource.MyPojo, Integer>) pojo -> 1);
+        KeyedStream<PojoComplexNestDataSource.MyPojo, Integer> keyed = mapped.keyBy((KeySelector<PojoComplexNestDataSource.MyPojo, Integer>) pojo -> 1);
 
-        keyed.map(new MapFunction<DummyPojoDataSource.MyPojo, DummyPojoDataSource.MyPojo>() {
+        keyed.map(new MapFunction<PojoComplexNestDataSource.MyPojo, PojoComplexNestDataSource.MyPojo>() {
             @Override
-            public DummyPojoDataSource.MyPojo map(DummyPojoDataSource.MyPojo pojo) throws Exception {
+            public PojoComplexNestDataSource.MyPojo map(PojoComplexNestDataSource.MyPojo pojo) throws Exception {
                 return pojo;    // do a simple identity map
             }
         });

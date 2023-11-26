@@ -16,10 +16,10 @@ public class Main {
         env.setParallelism(2);
 
     //    env = TuplePipeline.create(env);
-    //   env = PojoPipeline.create(env);
+//        env = PojoPipeline.create(env);
     //    env = ProtobufPipeline.create(env);
-    //    env = ThriftPipeline.create(env);
-       env = AvroPipeline.create(env);
+        env = ThriftPipeline.create(env);
+//       env = AvroPipeline.create(env);
 
         try {
             env.execute();
