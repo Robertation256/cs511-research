@@ -192,7 +192,7 @@ public class SerializationFrameWorkBenchmarks {
         StreamExecutionEnvironment env = context.env;
         env.setParallelism(1);
         env.getConfig().registerTypeWithKryoSerializer(SingleProto.single_proto.class, ProtobufSerializer.class);
-        env.addSource(new ThriftSingleDataSource(RECORDS_PER_INVOCATION))
+        env.addSource(new ProtobufSingleDataSource(RECORDS_PER_INVOCATION))
                 .rebalance()
                 .addSink(new DiscardingSink<>());
         env.execute();
@@ -204,7 +204,7 @@ public class SerializationFrameWorkBenchmarks {
         StreamExecutionEnvironment env = context.env;
         env.setParallelism(1);
         env.getConfig().registerTypeWithKryoSerializer(SimpleProto.simple_proto.class, ProtobufSerializer.class);
-        env.addSource(new ThriftSimpleNestedDataSource(RECORDS_PER_INVOCATION))
+        env.addSource(new ProtobufSimpleNestedDataSource(RECORDS_PER_INVOCATION))
                 .rebalance()
                 .addSink(new DiscardingSink<>());
         env.execute();
@@ -216,7 +216,7 @@ public class SerializationFrameWorkBenchmarks {
         StreamExecutionEnvironment env = context.env;
         env.setParallelism(1);
         env.getConfig().registerTypeWithKryoSerializer(ComplexProto.complex_proto.class, ProtobufSerializer.class);
-        env.addSource(new ThriftComplexNestedDataSource(RECORDS_PER_INVOCATION))
+        env.addSource(new ProtobufComplexNestedDataSource(RECORDS_PER_INVOCATION))
                 .rebalance()
                 .addSink(new DiscardingSink<>());
         env.execute();
