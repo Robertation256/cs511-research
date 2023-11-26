@@ -19,6 +19,13 @@ public class ProtobufComplexNestedDataSource extends RichSourceFunction<ComplexP
     private boolean isInfiniteSource = true;
     private long recordsPerInvocation = 0L;
 
+    public ProtobufComplexNestedDataSource(){}
+
+    public ProtobufComplexNestedDataSource(long recordsPerInvocation){
+        this.recordsPerInvocation = recordsPerInvocation;
+        this.isInfiniteSource = false;
+    }
+
 
     @Override
     public void run(SourceContext<ComplexProto.complex_proto> sourceContext) throws Exception {
