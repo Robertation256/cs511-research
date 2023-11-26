@@ -8,29 +8,35 @@ import org.apache.flink.streaming.api.datastream.KeyedStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.cs511.datasource.DummyProtobufDataSource;
 import org.cs511.proto.DummyProto;
-import org.cs511.proto.ComplexProto;
-import org.cs511.proto.SimpleProto;
+
 import org.cs511.proto.SingleProto;
+import org.cs511.datasource.ProtobufSingleDataSource;
+
+import org.cs511.proto.SimpleProto;
+import org.cs511.datasource.ProtobufSimpleNestedDataSource;
+
+import org.cs511.proto.ComplexProto;
+import org.cs511.datasource.ProtobufComplexNestedDataSource;
 
 public class ProtobufPipeline {
     public static StreamExecutionEnvironment create(StreamExecutionEnvironment env){
-        env.getConfig().registerTypeWithKryoSerializer(DummyProto.dummy_proto.class, ProtobufSerializer.class);
+        env.getConfig().registerTypeWithKryoSerializer(ComplexProto.complex_proto.class, ProtobufSerializer.class);
 
-        DataStream<DummyProto.dummy_proto> inputStream = env.addSource(new DummyProtobufDataSource());
+        DataStream<ComplexProto.complex_proto> inputStream = env.addSource(new ProtobufComplexNestedDataSource());
 
-        DataStream<DummyProto.dummy_proto> mapped = inputStream.map(new MapFunction<DummyProto.dummy_proto, DummyProto.dummy_proto>() {
+        DataStream<ComplexProto.complex_proto> mapped = inputStream.map(new MapFunction<ComplexProto.complex_proto, ComplexProto.complex_proto>() {
             @Override
-            public DummyProto.dummy_proto map(DummyProto.dummy_proto pojo) throws Exception {
+            public ComplexProto.complex_proto map(ComplexProto.complex_proto pojo) throws Exception {
                 return pojo;    // do a simple identity map
             }
         });
 
         // use a key by to break operator chaining
-        KeyedStream<DummyProto.dummy_proto, Integer> keyed = mapped.keyBy((KeySelector<DummyProto.dummy_proto, Integer>) pojo -> 1);
+        KeyedStream<ComplexProto.complex_proto, Integer> keyed = mapped.keyBy((KeySelector<ComplexProto.complex_proto, Integer>) pojo -> 1);
 
-        keyed.map(new MapFunction<DummyProto.dummy_proto, DummyProto.dummy_proto>() {
+        keyed.map(new MapFunction<ComplexProto.complex_proto, ComplexProto.complex_proto>() {
             @Override
-            public DummyProto.dummy_proto map(DummyProto.dummy_proto pojo) throws Exception {
+            public ComplexProto.complex_proto map(ComplexProto.complex_proto pojo) throws Exception {
                 return pojo;    // do a simple identity map
             }
         });
