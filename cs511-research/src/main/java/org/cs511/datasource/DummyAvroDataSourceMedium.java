@@ -36,7 +36,7 @@ public class DummyAvroDataSourceMedium extends RichSourceFunction<DummyAvroMediu
 
         Iterator itr = dataLines.iterator();
         List<DummyAvroMedium> data = new ArrayList<>();
-        
+
         while (itr.hasNext()){
             JSONObject dataLine = (JSONObject) itr.next();
             DummyAvroMedium avroObj = new DummyAvroMedium();  // level 1

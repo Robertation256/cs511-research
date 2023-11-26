@@ -18,7 +18,7 @@ import org.cs511.avro.DummyAvroHighRequirementsMinimum;
 import org.cs511.avro.DummyAvroHighRequirementsMinimumWindows;
 
 
-// FIXME: https://kapilsreed.medium.com/apache-avro-demystified-66d80426c752
+// https://kapilsreed.medium.com/apache-avro-demystified-66d80426c752
 public class DummyAvroDataSourceHigh extends RichSourceFunction<DummyAvroHigh> {
     private boolean running = true;
 
@@ -40,7 +40,7 @@ public class DummyAvroDataSourceHigh extends RichSourceFunction<DummyAvroHigh> {
 
         Iterator itr = dataLines.iterator();
         List<DummyAvroHigh> data = new ArrayList<>();
-        
+
         while (itr.hasNext()){
             JSONObject dataLine = (JSONObject) itr.next();
             DummyAvroHigh avroObj = new DummyAvroHigh();  // level 1
