@@ -8,6 +8,9 @@ import org.apache.flink.streaming.api.datastream.KeyedStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.cs511.datasource.DummyPojoDataSource;
 import org.cs511.datasource.DummyTupleDataSource;
+import org.cs511.datasource.PojoSingleDataSource;
+import org.cs511.datasource.PojoSimpleNestDataSource;
+import org.cs511.datasource.PojoComplexNestDataSource;
 
 public class PojoPipeline {
     public static StreamExecutionEnvironment create(StreamExecutionEnvironment env){

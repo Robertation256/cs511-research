@@ -26,13 +26,22 @@ public class PojoSimpleNestDataSource extends RichSourceFunction<PojoSimpleNestD
         private String sort = "hello";
         private String desc = "3.5";
 
-        public void setsort(String field1) {
+        public void setSort(String field1) {
             this.sort = field1;
         }
 
-        public void setdesc(String field2) {
+        public void setDesc(String field2) {
             this.desc = field2;
         }
+
+        public String getSort(){
+            return sort;
+        }
+
+        public String getDesc(){
+            return desc;
+        }
+
     }
 
     // note that PoJo needs to follow below conventions
@@ -42,20 +51,36 @@ public class PojoSimpleNestDataSource extends RichSourceFunction<PojoSimpleNestD
         private String publisher = "3.5";
         private Desc d = new Desc();
 
-        public void setdate(String field1) {
+        public void setDate(String field1) {
             this.date = field1;
         }
 
-        public void setdeveloper(String field2) {
+        public void setDeveloper(String field2) {
             this.developer = field2;
         }
 
-        public void setpublisher(String field3) {
+        public void setPublisher(String field3) {
             this.publisher = field3;
         }
 
-        public void setdesc(Desc field4) {
+        public void setD(Desc field4) {
             this.d = field4;
+        }
+
+        public String getDate(){
+            return date;
+        }
+
+        public String getDeveloper(){
+            return developer;
+        }
+
+        public String getPublisher(){
+            return publisher;
+        }
+
+        public Desc getD(){
+            return d;
         }
     }
 
@@ -88,14 +113,14 @@ public class PojoSimpleNestDataSource extends RichSourceFunction<PojoSimpleNestD
             String sort = (String) desc_obj.get("sort");
             String desc = (String) desc_obj.get("desc");
             Desc desc_ = new Desc();
-            desc_.setsort(sort);
-            desc_.setdesc(desc);
+            desc_.setSort(sort);
+            desc_.setDesc(desc);
 
             MyPojo resultElement = new MyPojo();
-            resultElement.setdate(date);
-            resultElement.setdeveloper(developer);
-            resultElement.setpublisher(publisher);
-            resultElement.setdesc(desc_);
+            resultElement.setDate(date);
+            resultElement.setDeveloper(developer);
+            resultElement.setPublisher(publisher);
+            resultElement.setD(desc_);
 
             data.add(resultElement);
         }

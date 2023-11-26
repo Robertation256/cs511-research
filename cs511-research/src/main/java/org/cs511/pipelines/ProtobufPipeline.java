@@ -8,6 +8,9 @@ import org.apache.flink.streaming.api.datastream.KeyedStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.cs511.datasource.DummyProtobufDataSource;
 import org.cs511.proto.DummyProto;
+import org.cs511.proto.ComplexProto;
+import org.cs511.proto.SimpleProto;
+import org.cs511.proto.SingleProto;
 
 public class ProtobufPipeline {
     public static StreamExecutionEnvironment create(StreamExecutionEnvironment env){

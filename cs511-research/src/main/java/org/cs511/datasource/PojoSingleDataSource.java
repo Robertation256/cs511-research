@@ -27,12 +27,20 @@ public class PojoSingleDataSource extends RichSourceFunction<PojoSingleDataSourc
         private String tconst = "hello";
         private String ratings = "3.5";
 
-        public void settconst(String field1) {
+        public void setTconst(String field1) {
             this.tconst = field1;
         }
 
-        public void setrating(String field2) {
+        public void setRatings(String field2) {
             this.ratings = field2;
+        }
+
+        public String getRatings() {
+            return ratings;
+        }
+
+        public String getTconst() {
+            return tconst;
         }
     }
 
@@ -60,8 +68,8 @@ public class PojoSingleDataSource extends RichSourceFunction<PojoSingleDataSourc
             String averageRating = (String) lineNode.get("averageRating");
 
             MyPojo resultElement = new MyPojo();
-            resultElement.settconst(tconst);
-            resultElement.setrating(averageRating);
+            resultElement.setTconst(tconst);
+            resultElement.setRatings(averageRating);
 
             data.add(resultElement);
         }
