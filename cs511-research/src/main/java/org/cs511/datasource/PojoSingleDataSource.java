@@ -32,7 +32,7 @@ public class PojoSingleDataSource extends RichSourceFunction<PojoSingleDataSourc
             this.ratings = field2;
         }
 
-        public int getRatings() {
+        public String getRatings() {
             return ratings;
         }
 
