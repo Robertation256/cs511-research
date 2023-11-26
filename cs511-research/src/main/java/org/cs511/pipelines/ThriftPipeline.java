@@ -11,6 +11,9 @@ import org.cs511.datasource.DummyProtobufDataSource;
 import org.cs511.datasource.DummyThriftDataSource;
 import org.cs511.proto.DummyProto;
 import org.cs511.thrift.DummyThrift;
+import org.cs511.thrift.SimpleThrift;
+import org.cs511.thrift.SingleThrift;
+import org.cs511.thrift.CompleThrift;
 
 public class ThriftPipeline {
     public static StreamExecutionEnvironment create(StreamExecutionEnvironment env){

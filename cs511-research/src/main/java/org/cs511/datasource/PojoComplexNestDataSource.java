@@ -25,36 +25,60 @@ public class PojoComplexNestDataSource extends RichSourceFunction<PojoComplexNes
         private String graphics = "1";
         private String os = "1";
 
-        public void setprocessor(String field1) {
+        public void setProcessor(String field1) {
             this.processor = field1;
         }
 
-        public void setmemory(String field1) {
+        public void setMemory(String field1) {
             this.memory = field1;
         }
 
-        public void setgraphics(String field1) {
+        public void setGraphics(String field1) {
             this.graphics = field1;
         }
 
-        public void setos(String field1) {
+        public void setOs(String field1) {
             this.os = field1;
+        }
+
+        public String getProcessor(){
+            return processor;
+        }
+
+        public String getMemory(){
+            return memory;
+        }
+
+        public String getGraphics(){
+            return graphics;
+        }
+
+        public String getOs(){
+            return os;
         }
     }
 
     public static final class Minimum {
         private Windows win = new Windows();
 
-        public void setwin(Windows field1) {
+        public void setWin(Windows field1) {
             this.win = field1;
+        }
+
+        public Windows getWin(){
+            return win;
         }
     }
 
     public static final class Requirements {
         private Minimum min = new Minimum();
 
-        public void setmin(Minimum field1) {
+        public void setMin(Minimum field1) {
             this.min = field1;
+        }
+
+        public Minimum getMin(){
+            return min;
         }
     }
 
@@ -62,13 +86,22 @@ public class PojoComplexNestDataSource extends RichSourceFunction<PojoComplexNes
         private String sort = "hello";
         private String desc = "3.5";
 
-        public void setsort(String field1) {
+        public void setSort(String field1) {
             this.sort = field1;
         }
 
-        public void setdesc(String field2) {
+        public void setDesc(String field2) {
             this.desc = field2;
         }
+
+        public void getSort(){
+            return sort;
+        }
+
+        public void getDesc(){
+            return desc;
+        }
+
     }
 
     // note that PoJo needs to follow below conventions
@@ -79,24 +112,44 @@ public class PojoComplexNestDataSource extends RichSourceFunction<PojoComplexNes
         private Desc d = new Desc();
         private Requirements r = new Requirements();
 
-        public void setdate(String field1) {
+        public void setDate(String field1) {
             this.date = field1;
         }
 
-        public void setdeveloper(String field2) {
+        public void setDeveloper(String field2) {
             this.developer = field2;
         }
 
-        public void setpublisher(String field3) {
+        public void setPublisher(String field3) {
             this.publisher = field3;
         }
 
-        public void setdesc(Desc field4) {
+        public void setD(Desc field4) {
             this.d = field4;
         }
 
-        public void setrequirement(Requirements field4) {
+        public void setR(Requirements field4) {
             this.r = field4;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public String getDeveloper() {
+            return developer;
+        }
+
+        public String getPublisher() {
+            return publisher;
+        }
+
+        public Desc getD() {
+            return d;
+        }
+
+        public Requirements getR() {
+            return r;
         }
     }
 
@@ -123,8 +176,8 @@ public class PojoComplexNestDataSource extends RichSourceFunction<PojoComplexNes
             String sort = (String) desc_obj.get("sort");
             String desc = (String) desc_obj.get("desc");
             Desc desc_ = new Desc();
-            desc_.setsort(sort);
-            desc_.setdesc(desc);
+            desc_.setSort(sort);
+            desc_.setDesc(desc);
 
             JSONObject requirement_obj = (JSONObject) lineNode.get("requirements");
             JSONObject minimum_obj = (JSONObject) requirement_obj.get("minimum");
@@ -135,16 +188,16 @@ public class PojoComplexNestDataSource extends RichSourceFunction<PojoComplexNes
             String os = (String) windows_obj.get("os");
             Windows win = new Windows();
             Minimum min = new Minimum();
-            min.setwin(win);
+            min.setWin(win);
             Requirements req = new Requirements();
-            req.setmin(min);
+            req.setMin(min);
 
             MyPojo resultElement = new MyPojo();
-            resultElement.setdate(date);
-            resultElement.setdeveloper(developer);
-            resultElement.setpublisher(publisher);
-            resultElement.setdesc(desc_);
-            resultElement.setrequirement(req);
+            resultElement.setDate(date);
+            resultElement.setDeveloper(developer);
+            resultElement.setPublisher(publisher);
+            resultElement.setD(desc_);
+            resultElement.setR(req);
 
             data.add(resultElement);
 
