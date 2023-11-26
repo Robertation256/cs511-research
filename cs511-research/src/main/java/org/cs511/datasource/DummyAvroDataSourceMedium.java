@@ -39,42 +39,16 @@ public class DummyAvroDataSourceMedium extends RichSourceFunction<DummyAvroMediu
 
         while (itr.hasNext()){
             JSONObject dataLine = (JSONObject) itr.next();
-
             DummyAvroMedium avroObj = new DummyAvroMedium();  // level 1
 
-            if (dataLine.containsKey("date")) {
-                avroObj.setDate((String) dataLine.get("date"));
-            } else {
-                avroObj.setDate("date");
-            }
-            if (dataLine.containsKey("developer")) {
-                avroObj.setDeveloper((String) dataLine.get("developer"));
-            } else {
-                avroObj.setDeveloper("developer");
-            }
-            if (dataLine.containsKey("publisher")) {
-                avroObj.setPublisher((String) dataLine.get("publisher"));
-            } else {
-                avroObj.setPublisher("publisher");
-            }
+            avroObj.setDate((String) dataLine.get("date"));
+            avroObj.setDeveloper((String) dataLine.get("developer"));
+            avroObj.setPublisher((String) dataLine.get("publisher"));
 
             DummyAvroMediumFullDesc avroFullDesc = new DummyAvroMediumFullDesc();  // level 2
-            JSONObject dataLineFullDesc = (JSONObject) jp.parse("{}");
-
-            if (dataLine.containsKey("full_desc")) {
-                dataLineFullDesc = (JSONObject) dataLine.get("full_desc");
-            }
-
-            if (dataLineFullDesc.containsKey("sort")) {
-                avroFullDesc.setSort((String) dataLineFullDesc.get("sort"));
-            } else {
-                avroFullDesc.setSort("sort");
-            }
-            if (dataLineFullDesc.containsKey("desc")) {
-                avroFullDesc.setDesc((String) dataLineFullDesc.get("desc"));
-            } else {
-                avroFullDesc.setDesc("desc");
-            }
+            JSONObject dataLineFullDesc = (JSONObject) dataLine.get("full_desc");
+            avroFullDesc.setSort((String) dataLineFullDesc.get("sort"));
+            avroFullDesc.setDesc((String) dataLineFullDesc.get("desc"));
 
             avroObj.setFullDesc(avroFullDesc);
 

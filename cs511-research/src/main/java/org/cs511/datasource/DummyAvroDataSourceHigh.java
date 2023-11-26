@@ -18,7 +18,7 @@ import org.cs511.avro.DummyAvroHighRequirementsMinimum;
 import org.cs511.avro.DummyAvroHighRequirementsMinimumWindows;
 
 
-// FIXME: https://kapilsreed.medium.com/apache-avro-demystified-66d80426c752
+// https://kapilsreed.medium.com/apache-avro-demystified-66d80426c752
 public class DummyAvroDataSourceHigh extends RichSourceFunction<DummyAvroHigh> {
     private boolean running = true;
 
@@ -30,47 +30,6 @@ public class DummyAvroDataSourceHigh extends RichSourceFunction<DummyAvroHigh> {
     public DummyAvroDataSourceHigh(long recordsPerInvocation){
         this.recordsPerInvocation = recordsPerInvocation;
         this.isInfiniteSource = false;
-    }
-
-    public boolean steamJsonWellStructured(JSONObject dataLine) {
-        if (!dataLine.containsKey("date")) {
-            dataLine.put("date", "date");
-        }
-        if (!dataLine.containsKey("developer")) {
-            dataLine.put("developer", "developer");
-        }
-        if (!dataLine.containsKey("publisher")) {
-            dataLine.put("publisher", "publisher");
-        }
-        if (!dataLine.containsKey("requirements")) {
-            System.out.println("level 1 requirements or full_desc");
-            return false;
-        }
-        if (!dataLine.containsKey("full_desc")) {
-            System.out.println("level 1 full_desc");
-            return false;
-        }
-        JSONObject dataLineFullDesc = (JSONObject) dataLine.get("full_desc");
-        if (!dataLineFullDesc.containsKey("sort") || !dataLineFullDesc.containsKey("desc")) {
-            System.out.println("full_desc");
-            return false;
-        }
-        JSONObject dataLineRequirements = (JSONObject) dataLine.get("requirements");
-        if (!dataLineRequirements.containsKey("minimum")) {
-            System.out.println("minimum");
-            return false;
-        }
-        JSONObject dataLineRequirementsMinimum = (JSONObject) dataLineRequirements.get("minimum");
-        if (!dataLineRequirementsMinimum.containsKey("windows")) {
-            System.out.println("windows");
-            return false;
-        }
-        JSONObject dataLineRequirementsMinimumWindows = (JSONObject) dataLineRequirementsMinimum.get("windows");
-        if (!dataLineRequirementsMinimumWindows.containsKey("processor") || !dataLineRequirementsMinimumWindows.containsKey("memory") || !dataLineRequirementsMinimumWindows.containsKey("graphics") || !dataLineRequirementsMinimumWindows.containsKey("os")) {
-            System.out.println("inside windows");
-            return false;
-        }
-        return true;
     }
 
     @Override
